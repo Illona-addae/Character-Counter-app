@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #fff;
+  --text: #2a2b37;
+}
+
+body.dark-mode {
+  --bg: #12131a;
+  --text: #f2f2f7;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s ease, color 0.3s ease;
+  padding: 2em 14.0625em 17.3125em 14.0625em;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.theme-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* All theme icon syling */
+.theme-btn .icon {
+  width: 40px;
+  height: 40px;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+
+.logos .logo {
+  display: none;
+}
+
+/* Light mode: show moon */
+body:not(.dark-mode) .theme-btn .moon {
+  display: block;
+}
+
+/* Dark mode: show light theme logo */
+body:not(.dark-mode) .logo-light-mode {
+  display: block;
+}
+
+/* Dark mode: show sun */
+body.dark-mode .theme-btn .sun {
+  display: block;
+}
+/* Dark mode: show dark theme logo */
+body.dark-mode .logo-dark-mode {
+  display: block;
+}
+
+.theme-btn:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
