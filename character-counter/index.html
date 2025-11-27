@@ -9,7 +9,7 @@
   </head>
   <body>
     <header>
-        <!-- Logo Switcher -->
+      <!-- Logo Switcher -->
       <div class="logos">
         <img
           src="./assets/images/logo-light-theme.svg"
@@ -36,20 +36,79 @@
         />
       </button>
     </header>
-    <main class="container">
+   <main class="container">
+        <section class="text-section">
+          <h1 class="heading">Analyze your text in real-time.</h1>
 
-        <h1 class="heading"></h1>
-        <textarea name="" id=""></textarea>
-         <div class="checkpoint">
-             <input type="checkbox" name="" id="">
-             <label for=""></label>
-              <input type="checkbox" name="" id="">
-            <label for=""></label>
-         </div>
-       <div class="cards">
-         
-       </div>
+          <div class="input-area">
+            <textarea
+              name="text-input"
+              id="text-input"
+              spellcheck="false"
+              class="textarea"
+              placeholder="Start typing here... (or paste your text)"
+            ></textarea>
+            
+            <div class="controls">
+              <div class="options">
+                <div class="check-item">
+                  <input type="checkbox" name="exclude-spaces" id="exclude-spaces" />
+                  <label for="exclude-spaces">Exclude Spaces</label>
+                </div>
 
-    </main>
+                <div class="check-item">
+                  <input
+                    type="checkbox"
+                    name="set-character-lim"
+                    id="set-character-lim"
+                  />
+                  <label for="set-character-lim">Set Character Limit</label>
+                  <input type="number" id="character-limit-input" class="limit-input hidden" value="300">
+                </div>
+              </div>
+              <p class="reading-time">Approx. reading time: <span id="reading-time">0</span> minute</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Statistics Cards -->
+        <section class="stats-container">
+          <div class="card purple-card">
+            <div class="card-content">
+              <span class="count" id="char-count">00</span>
+              <span class="label">Total Characters</span>
+            </div>
+          </div>
+          <div class="card orange-card">
+            <div class="card-content">
+              <span class="count" id="word-count">00</span>
+              <span class="label">Word Count</span>
+            </div>
+          </div>
+          <div class="card red-card">
+            <div class="card-content">
+              <span class="count" id="sentence-count">00</span>
+              <span class="label">Sentence Count</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Letter Density -->
+        <section class="letter-density">
+          <h2>Letter Density</h2>
+          <div class="density-list" id="density-list">
+            <p class="empty-message">No characters found. Start typing to see letter density.</p>
+            <!-- Javascript will inject letter bars here like this: -->
+            <!-- 
+            <div class="letter-item">
+              <span class="letter">E</span>
+              <div class="progress-bar"><div class="fill" style="width: 50%"></div></div>
+              <span class="percentage">50 (12%)</span>
+            </div> 
+            -->
+          </div>
+          <button id="see-more-btn" class="see-more hidden">See more <img src="./assets/images/icon-arrow-down.svg" alt="" /></button>
+        </section>
+      </main>
   </body>
 </html>

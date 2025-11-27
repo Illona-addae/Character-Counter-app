@@ -7,11 +7,17 @@
 :root {
   --bg: #fff;
   --text: #2a2b37;
+  --textarea-bg: #f2f2f7;
+  --textarea-border: #e4e4ef;
+  --textarea-text: #2a2b37;
 }
 
 body.dark-mode {
   --bg: #12131a;
   --text: #f2f2f7;
+  --textarea-bg: #21222c;
+  --textarea-border: #2a2b37;
+  --textarea-text: #e4e4ef;
 }
 
 body {
@@ -24,6 +30,8 @@ body {
 header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding-bottom: 2em;
 }
 
 .theme-btn {
@@ -38,14 +46,15 @@ header {
 
 /* All theme icon syling */
 .theme-btn .icon {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   display: none;
   transition: opacity 0.3s ease;
 }
 
 .logos .logo {
   display: none;
+  width: 200px;
 }
 
 /* Light mode: show moon */
@@ -70,4 +79,98 @@ body.dark-mode .logo-dark-mode {
 .theme-btn:hover {
   transform: scale(1.1);
   transition: transform 0.2s ease;
+}
+
+.text-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading {
+  font-family: "DM Sans";
+  font-size: 4rem;
+  width: 50%;
+  text-align: center;
+}
+.textarea {
+  background-color: var(--textarea-bg);
+  color: var(--textarea-text);
+  border-radius: 12px;
+  border: 2px solid var(--textarea-border);
+  padding: 5em 1.25em;
+  width: 80%;
+}
+
+.checkpoint {
+  display: flex;
+  justify-content: space-between;
+}
+
+.check {
+  display: flex;
+  align-self: flex-end;
+ 
+}
+
+.reading-time {
+  align-self: flex-end;
+}
+/* Media Queries */
+
+@media (max-width: 375px) {
+  body {
+    padding: 1.5em;
+  }
+
+  header {
+    padding-bottom: 1.2em;
+  }
+
+  .logos .logo {
+    width: 95px;
+  }
+
+  .theme-btn .icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 480px) {
+  body {
+    padding: 2em;
+  }
+
+  .logos .logo {
+    width: 110px;
+  }
+
+  .theme-btn .icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  body {
+    padding: 3em 6em;
+  }
+
+  .logo .logo {
+    width: 150px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+  body {
+    padding: 4em 10em;
+  }
+}
+
+@media (min-width: 1441px) {
+  body {
+    padding: 2em 14em;
+  }
 }
