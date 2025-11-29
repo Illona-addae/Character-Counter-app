@@ -93,30 +93,341 @@ body.dark-mode .logo-dark-mode {
   font-size: 4rem;
   width: 50%;
   text-align: center;
+  margin-bottom: 2.5rem; /* Space below heading: 40px */
 }
+
+/* ========================================
+   TEXTAREA SECTION
+   ======================================== */
+
+/* Wrapper for textarea and controls */
+.input-area {
+  width: 80%; /* Matches card width for alignment */
+  display: flex; /* Makes children flexible */
+  flex-direction: column; /* Stacks textarea above controls */
+  gap: 1rem; /* Space between textarea and controls: 16px */
+}
+
+/* Main textarea styling */
 .textarea {
-  background-color: var(--textarea-bg);
-  color: var(--textarea-text);
-  border-radius: 12px;
-  border: 2px solid var(--textarea-border);
-  padding: 5em 1.25em;
-  width: 80%;
+  background-color: var(
+    --textarea-bg
+  ); /* Uses CSS variable for theme support */
+  color: var(--textarea-text); /* Text color from CSS variable */
+  border-radius: 12px; /* Rounded corners */
+  border: 2px solid var(--textarea-border); /* Border using CSS variable */
+  padding: 1.5rem; /* Internal spacing: 24px all sides */
+  width: 100%; /* Full width of parent (.input-area) */
+  height: 180px; /* Fixed height (answer 1A) */
+  font-size: 1rem; /* 16px font size */
+  font-family: inherit; /* Uses body font */
+  resize: none; /* Prevents user from resizing */
+  transition: border-color 0.3s ease; /* Smooth transition for border color changes */
+  outline: none; /* Removes default browser outline */
 }
 
-.checkpoint {
-  display: flex;
-  justify-content: space-between;
+/* Placeholder text styling */
+.textarea::placeholder {
+  color: var(--textarea-text); /* Uses theme color */
+  opacity: 0.5; /* Makes placeholder lighter/subtle */
 }
 
-.check {
-  display: flex;
-  align-self: flex-end;
- 
+/* Focus state - when user clicks in textarea (answer 2A) */
+.textarea:focus {
+  border-color: #a78bfa; /* Purple border on focus */
+  border-width: 2px; /* Keeps same width, just changes color */
 }
 
+/* Error state - when character limit exceeded (answer 3A) */
+.textarea.error {
+  border-color: #ef4444; /* Red border for error */
+  border-width: 2px; /* Consistent border width */
+}
+
+/* Controls container - holds checkboxes and reading time (answer 4B) */
+.controls {
+  display: flex; /* Makes children sit in a row */
+  justify-content: space-between; /* Pushes checkboxes left, reading time right */
+  align-items: center; /* Vertically centers items */
+  width: 100%; /* Full width of parent */
+  padding: 0.5rem 0; /* Small top/bottom padding: 8px */
+}
+
+/* Checkboxes wrapper on the left */
+.options {
+  display: flex; /* Makes checkboxes sit in a row */
+  gap: 1.5rem; /* Space between checkbox items: 24px */
+  align-items: center; /* Vertically centers checkboxes */
+}
+
+/* Individual checkbox item (checkbox + label) */
+.check-item {
+  display: flex; /* Makes checkbox and label sit side-by-side */
+  align-items: center; /* Vertically centers checkbox with label */
+  gap: 0.5rem; /* Space between checkbox and label: 8px */
+}
+
+/* Checkbox input styling */
+.check-item input[type="checkbox"] {
+  width: 18px; /* Checkbox width */
+  height: 18px; /* Checkbox height */
+  cursor: pointer; /* Shows hand cursor on hover */
+  accent-color: #a78bfa; /* Purple color when checked */
+}
+
+/* Checkbox label text */
+.check-item label {
+  font-size: 0.95rem; /* Slightly smaller: 15px */
+  color: var(--text); /* Uses theme text color */
+  cursor: pointer; /* Shows hand cursor on hover */
+  -webkit-user-select: none; /* Safari support */
+  user-select: none; /* Prevents text selection when clicking */
+}
+
+/* Character limit input field */
+.limit-input {
+  width: 70px; /* Fixed width for number input */
+  padding: 0.25rem 0.5rem; /* Small padding: 4px top/bottom, 8px left/right */
+  border: 1px solid var(--textarea-border); /* Border matches theme */
+  border-radius: 6px; /* Small rounded corners */
+  background-color: var(--textarea-bg); /* Background matches theme */
+  color: var(--text); /* Text color from theme */
+  font-size: 0.9rem; /* Slightly smaller: 14px */
+  text-align: center; /* Centers the number */
+  outline: none; /* Removes default outline */
+}
+
+/* Focus state for limit input */
+.limit-input:focus {
+  border-color: #a78bfa; /* Purple border on focus */
+}
+
+/* Hidden class - hides elements with display:none */
+.hidden {
+  display: none; /* Completely removes from layout */
+}
+
+/* Reading time text on the right */
 .reading-time {
-  align-self: flex-end;
+  font-size: 0.95rem; /* Slightly smaller: 15px */
+  color: var(--text); /* Uses theme text color */
+  white-space: nowrap; /* Prevents text from wrapping to new line */
 }
+
+/* Highlighted span inside reading time (the actual time number) */
+.reading-time span {
+  font-weight: 600; /* Makes the number slightly bolder */
+}
+
+/* Warning message below textarea when limit exceeded (answer 3A) */
+.limit-warning {
+  display: flex; /* Makes icon and text sit side-by-side */
+  align-items: center; /* Vertically centers icon with text */
+  gap: 0.5rem; /* Space between icon and text: 8px */
+  color: #ef4444; /* Red color for warning */
+  font-size: 0.9rem; /* Slightly smaller: 14px */
+  margin-top: -0.5rem; /* Pulls warning closer to textarea */
+  padding-left: 0.25rem; /* Small left padding for alignment */
+}
+
+/* Warning icon (if using an icon) */
+.limit-warning::before {
+  content: "⚠"; /* Warning emoji/symbol */
+  font-size: 1rem; /* Icon size */
+}
+
+/* ========================================
+   STATISTICS CARDS SECTION
+   ======================================== */
+
+/* Container for all three stat cards */
+.stats-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Individual card styling */
+.card {
+  flex: 1;
+  min-width: 0;
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+}
+
+/* Purple card - for Total Characters */
+.purple-card {
+  background-color: #c4b5fd;
+  background-image: url("./assets/images/pattern-character-count.svg");
+  background-size: 120px 120px;
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+/* Orange card - for Word Count */
+.orange-card {
+  background-color: #fb923c;
+  background-image: url("./assets/images/pattern-word-count.svg");
+  background-size: 120px 120px;
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+/* Red/coral card - for Sentence Count */
+.red-card {
+  background-color: #f87171;
+  background-image: url("./assets/images/pattern-sentence-count.svg");
+  background-size: 120px 120px;
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+/* Card content wrapper */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* The number/count display */
+.card .count {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #1f2937;
+}
+
+/* The label text */
+.card .label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1f2937;
+  line-height: 1.4;
+}
+
+/* ========================================
+   LETTER DENSITY SECTION
+   ======================================== */
+
+/* Main letter density section */
+.letter-density {
+  width: 80%; /* Matches textarea and cards width */
+  margin: 3rem auto 0 auto; /* 48px top margin, centered horizontally */
+}
+
+/* Section heading */
+.letter-density h2 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 600; /* Semi-bold */
+  color: var(--text); /* Uses theme color */
+  margin-bottom: 1.5rem; /* 24px space below heading */
+}
+
+/* Container for all letter items */
+.density-list {
+  display: flex; /* Makes children flexible */
+  flex-direction: column; /* Stacks letter items vertically */
+  gap: 1rem; /* 16px space between each letter item */
+}
+
+/* Empty message when no text is entered */
+.empty-message {
+  color: var(--text); /* Uses theme color */
+  opacity: 0.6; /* Makes it lighter/subtle */
+  font-size: 0.95rem; /* 15px */
+  text-align: center; /* Centers the message */
+  padding: 2rem 0; /* 32px top/bottom padding */
+}
+
+/* Individual letter item (letter + bar + percentage) */
+.letter-item {
+  display: flex; /* Makes children sit in a row */
+  align-items: center; /* Vertically centers all items */
+  gap: 1rem; /* 16px space between letter, bar, and percentage */
+}
+
+/* The letter label on the left (E, I, T, etc.) */
+.letter-item .letter {
+  font-size: 1.125rem; /* 18px - slightly larger */
+  font-weight: 600; /* Semi-bold */
+  color: var(--text); /* Uses theme color */
+  width: 1.5rem; /* Fixed width: 24px for alignment */
+  text-align: center; /* Centers the letter in its space */
+  flex-shrink: 0; /* Prevents letter from shrinking */
+}
+
+/* Progress bar container (background track) */
+.letter-item .progress-bar {
+  flex: 1; /* Takes up remaining space between letter and percentage */
+  height: 12px; /* Bar height */
+  background-color: var(--textarea-bg); /* Light background (theme-aware) */
+  border-radius: 6px; /* Rounded ends */
+  overflow: hidden; /* Hides overflow of fill bar */
+  position: relative; /* Allows positioning of fill inside */
+}
+
+/* Progress bar fill (the actual purple bar) */
+.letter-item .fill {
+  height: 100%; /* Full height of parent */
+  background-color: #a78bfa; /* Purple color matching theme */
+  border-radius: 6px; /* Rounded ends */
+  transition: width 0.3s ease; /* Smooth animation when width changes */
+  /* Width will be set dynamically by JavaScript (e.g., width: 50%) */
+}
+
+/* Percentage and count text on the right */
+.letter-item .percentage {
+  font-size: 0.95rem; /* 15px */
+  color: var(--text); /* Uses theme color */
+  white-space: nowrap; /* Prevents wrapping to new line */
+  min-width: 90px; /* Fixed minimum width for alignment */
+  text-align: right; /* Right-aligns the text */
+  flex-shrink: 0; /* Prevents percentage from shrinking */
+}
+
+/* "See more" / "See less" button */
+.see-more {
+  display: flex; /* Makes text and icon sit side-by-side */
+  align-items: center; /* Vertically centers text with icon */
+  gap: 0.5rem; /* 8px space between text and arrow icon */
+  background: none; /* No background (text button style) */
+  border: none; /* No border */
+  color: var(--text); /* Uses theme color */
+  font-size: 0.95rem; /* 15px */
+  font-weight: 500; /* Medium weight */
+  cursor: pointer; /* Shows hand cursor on hover */
+  padding: 0.75rem 0; /* 12px top/bottom padding */
+  margin-top: 1rem; /* 16px space above button */
+  transition: opacity 0.2s ease; /* Smooth hover effect */
+}
+
+/* Hover state for see more button */
+.see-more:hover {
+  opacity: 0.7; /* Slightly transparent on hover */
+}
+
+/* Arrow icon inside button */
+.see-more img {
+  width: 16px; /* Icon width */
+  height: 16px; /* Icon height */
+  transition: transform 0.3s ease; /* Smooth rotation animation */
+}
+
+/* Rotate arrow when expanded (will toggle class with JavaScript) */
+.see-more.expanded img {
+  transform: rotate(180deg); /* Flips arrow upside down */
+}
+
 /* Media Queries */
 
 @media (max-width: 375px) {
@@ -136,6 +447,71 @@ body.dark-mode .logo-dark-mode {
     width: 26px;
     height: 26px;
   }
+
+  /* Heading adjustments */
+  .heading {
+    font-size: 2rem; /* Smaller heading: 32px */
+    width: 90%; /* Wider on mobile */
+    margin-bottom: 1.5rem; /* Less space below */
+  }
+
+  /* Textarea section adjustments */
+  .input-area {
+    width: 100%; /* Full width on mobile */
+  }
+
+  .textarea {
+    height: 150px; /* Slightly shorter on mobile */
+    font-size: 0.95rem; /* Slightly smaller text */
+  }
+
+  /* Stack controls vertically on very small screens */
+  .controls {
+    flex-direction: column; /* Changes from row to column */
+    align-items: flex-start; /* Aligns items to left */
+    gap: 0.75rem; /* Space between stacked items */
+  }
+
+  .options {
+    flex-direction: column; /* Stack checkboxes vertically */
+    align-items: flex-start; /* Align to left */
+    gap: 0.5rem; /* Smaller gap */
+  }
+
+  /* Letter Density adjustments */
+  .letter-density {
+    width: 100%; /* Full width on mobile */
+    margin-top: 2rem; /* Less top margin */
+  }
+
+  .letter-density h2 {
+    font-size: 1.25rem; /* Smaller heading: 20px */
+  }
+
+  .letter-item {
+    gap: 0.75rem; /* Tighter spacing */
+  }
+
+  .letter-item .letter {
+    font-size: 1rem; /* Smaller letter: 16px */
+    width: 1.25rem; /* Narrower width */
+  }
+
+  .letter-item .percentage {
+    font-size: 0.875rem; /* Smaller text: 14px */
+    min-width: 80px; /* Narrower on mobile */
+  }
+
+  /* Stack cards vertically on small screens */
+  .stats-container {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .card .count {
+    font-size: 3rem;
+  }
 }
 
 @media (min-width: 376px) and (max-width: 480px) {
@@ -151,6 +527,66 @@ body.dark-mode .logo-dark-mode {
     width: 28px;
     height: 28px;
   }
+
+  /* Heading adjustments */
+  .heading {
+    font-size: 2.5rem; /* Medium heading: 40px */
+    width: 85%; /* Slightly wider */
+    margin-bottom: 2rem; /* 32px space below */
+  }
+
+  /* Textarea adjustments */
+  .input-area {
+    width: 100%; /* Full width on mobile */
+  }
+
+  /* Letter Density adjustments */
+  .letter-density {
+    width: 100%; /* Full width on mobile landscape */
+    margin-top: 2.5rem;
+  }
+
+  /* Stack cards vertically on small screens */
+  .stats-container {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+}
+
+/* Tablets and large phones (481px to 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  body {
+    padding: 2.5em 4em; /* Comfortable padding for tablets */
+  }
+
+  .logos .logo {
+    width: 130px; /* Medium logo size */
+  }
+
+  /* Tablet heading */
+  .heading {
+    font-size: 3rem; /* 48px for small tablets */
+    width: 70%; /* Moderate width */
+    margin-bottom: 2rem; /* 32px space below */
+  }
+
+  /* Textarea adjustments */
+  .input-area {
+    width: 90%; /* Slightly narrower than mobile */
+  }
+
+  /* Letter Density adjustments */
+  .letter-density {
+    width: 90%; /* Match input-area width */
+  }
+
+  /* Keep cards stacked on smaller tablets */
+  .stats-container {
+    flex-direction: column;
+    gap: 1rem;
+    width: 90%;
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
@@ -161,16 +597,37 @@ body.dark-mode .logo-dark-mode {
   .logo .logo {
     width: 150px;
   }
+
+  /* Tablet heading - slightly smaller than desktop */
+  .heading {
+    font-size: 3.5rem; /* 56px for tablets */
+    width: 60%; /* Slightly narrower */
+    margin-bottom: 2.25rem; /* 36px space below */
+  }
 }
 
 @media (min-width: 1025px) and (max-width: 1440px) {
   body {
     padding: 4em 10em;
   }
+
+  /* Desktop heading - standard size */
+  .heading {
+    font-size: 3.75rem; /* 60px for smaller desktops */
+    width: 55%; /* Balanced width */
+    margin-bottom: 2.5rem; /* 40px space below */
+  }
 }
 
 @media (min-width: 1441px) {
   body {
     padding: 2em 14em;
+  }
+
+  /* Large desktop heading - full size from base styles */
+  .heading {
+    font-size: 4rem; /* 64px for large screens */
+    width: 50%; /* Original design width */
+    margin-bottom: 2.5rem; /* 40px space below */
   }
 }
