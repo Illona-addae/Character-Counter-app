@@ -2,7 +2,7 @@
 
 A real-time text analysis tool that provides comprehensive statistics including character count, word count, sentence count, reading time estimation, and letter frequency analysis. Built with vanilla JavaScript, featuring a responsive design and dark/light theme support.
 
-![Character Counter App](./character-counter/assets/images/preview.png)
+![Character Counter App](./character-counter/assets/images/preview.jpg)
 
 ## 🚀 Features
 
