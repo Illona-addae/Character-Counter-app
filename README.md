@@ -31,7 +31,7 @@ A real-time text analysis tool that provides comprehensive statistics including 
 
 ## 🎯 Demo
 
-Visit the live application: [Character Counter App](https://illona-addae.github.io/Character-Counter-app/)
+Visit the live application: [Character Counter App](https://character-counter-web-app.netlify.app/)
 
 ## 🛠 Technologies
 
