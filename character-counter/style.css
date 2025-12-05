@@ -184,6 +184,19 @@ body.dark-mode .logo-dark-mode {
   user-select: none; /* Prevents text selection when clicking */
 }
 
+/* Screen reader only - visually hidden but accessible to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* Character limit input field */
 .limit-input {
   width: 70px; /* Fixed width for number input */
@@ -478,6 +491,19 @@ body.dark-mode .logo-dark-mode {
     gap: 0.5rem; /* Smaller gap */
   }
 
+  .check-item {
+    width: 100%;
+  }
+
+  .check-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+
+  .check-item label {
+    font-size: 0.85rem;
+  }
+
   /* Letter Density adjustments */
   .letter-density {
     width: 100%; /* Full width on mobile */
@@ -540,6 +566,22 @@ body.dark-mode .logo-dark-mode {
     width: 100%; /* Full width on mobile */
   }
 
+  /* Controls responsive */
+  .controls {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .options {
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .check-item label {
+    font-size: 0.9rem;
+  }
+
   /* Letter Density adjustments */
   .letter-density {
     width: 100%; /* Full width on mobile landscape */
@@ -579,6 +621,18 @@ body.dark-mode .logo-dark-mode {
   /* Letter Density adjustments */
   .letter-density {
     width: 90%; /* Match input-area width */
+  }
+
+  /* Controls responsive */
+  .controls {
+    justify-content: flex-start;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .options {
+    gap: 1.2rem;
+    flex-wrap: wrap;
   }
 
   /* Keep cards stacked on smaller tablets */
