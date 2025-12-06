@@ -2,7 +2,7 @@ import {
   updateCharacterCount,
   updateWordCount,
 } from "./scripts/text-metrics.js";
-import updateLetterDensity from "./letter-density.js";
+import updateLetterDensity from "./scripts/letter-density.js";
 
 (function () {
   "use strict";
