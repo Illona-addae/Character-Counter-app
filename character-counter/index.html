@@ -11,7 +11,7 @@
     />
     <title>Illona Addae | Character counter</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
+    <script src="script.js" defer type="module"></script>
   </head>
   <body>
     <header>
@@ -73,7 +73,9 @@
                   id="set-character-lim"
                 />
                 <label for="set-character-lim">Set Character Limit</label>
-                <label for="character-limit-input" class="sr-only">Character limit</label>
+                <label for="character-limit-input" class="sr-only"
+                  >Character limit</label
+                >
                 <input
                   type="number"
                   id="character-limit-input"
@@ -121,14 +123,8 @@
           <p class="empty-message">
             No characters found. Start typing to see letter density.
           </p>
-          <!-- Javascript will inject letter bars here like this: -->
-          <!-- 
-            <div class="letter-item">
-              <span class="letter">E</span>
-              <div class="progress-bar"><div class="fill" style="width: 50%"></div></div>
-              <span class="percentage">50 (12%)</span>
-            </div> 
-            -->
+          <!-- Javascript will inject letter bars here  -->
+          
         </div>
         <button id="see-more-btn" class="see-more hidden">
           See more <img src="./assets/images/icon-arrow-down.svg" alt="" />
