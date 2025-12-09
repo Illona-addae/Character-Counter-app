@@ -26,3 +26,16 @@ export function updateWordCount(text, wordCountEl) {
   const words = tokens.filter((t) => /[\p{L}\p{N}]/u.test(t));
   wordCountEl.textContent = words.length.toString().padStart(2, "0");
 }
+
+// A pure function that returns the number of sentences in `text`.
+// It uses a Unicode-aware regex to detect sentence-ending punctuation
+// that is preceded by a letter/number and followed by whitespace or end
+// of string. This avoids counting standalone punctuation as sentences.
+export function countSentences(text) {
+  const trimmed = String(text || "").trim();
+  if (trimmed === "") return 0;
+  const matches = trimmed.match(/[\p{L}\p{N}][.!?]+(?=\s|$)/gu);
+  const hasWordChar = /[\p{L}\p{N}]/u.test(trimmed);
+  const count = matches ? matches.length : hasWordChar ? 1 : 0;
+  return count;
+}

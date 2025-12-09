@@ -1,64 +1,83 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Character Counter — Test Harness</title>
-  <link rel="stylesheet" href="style.css">
-  <script type="module" src="script.js" defer></script>
-  <style>
-    body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:16px}
-    .tests{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-    .tests button{padding:8px 12px}
-    .note{color:#444;margin-bottom:12px}
-  </style>
-</head>
-<body>
-  <h1>Character Counter — Test Harness</h1>
-  <p class="note">Click a test to populate the input and run the app's calculations.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Character Counter — Test Harness</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="script.js" defer></script>
+    <style>
+      body {
+        font-family: system-ui, Segoe UI, Roboto, Arial;
+        margin: 16px;
+      }
+      .tests {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .tests button {
+        padding: 8px 12px;
+      }
+      .note {
+        color: #444;
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Character Counter — Test Harness</h1>
+    <p class="note">
+      Click a test to populate the input and run the app's calculations.
+    </p>
 
-  <div class="tests">
-    <button data-test="dot">Single dot</button>
-    <button data-test="punct">Only punctuation</button>
-    <button data-test="hello">"Hello world."</button>
-    <button data-test="hello-dot">"Hello . world"</button>
-    <button data-test="abbrev">"U.S.A."</button>
-    <button data-test="nonlatin">Non-Latin (Кириллица) привет</button>
-  </div>
+    <div class="tests">
+      <button data-test="dot">Single dot</button>
+      <button data-test="punct">Only punctuation</button>
+      <button data-test="hello">"Hello world."</button>
+      <button data-test="hello-dot">"Hello . world"</button>
+      <button data-test="abbrev">"U.S.A."</button>
+      <button data-test="nonlatin">Non-Latin (Кириллица) привет</button>
+    </div>
 
-  <div>
-    <label for="text-input">Input (app textarea):</label>
-    <textarea id="text-input" class="textarea" style="width:100%;height:120px"></textarea>
-  </div>
+    <div>
+      <label for="text-input">Input (app textarea):</label>
+      <textarea
+        id="text-input"
+        class="textarea"
+        style="width: 100%; height: 120px"
+      ></textarea>
+    </div>
 
-  <div style="margin-top:12px">
-    <strong>Results (from page UI):</strong>
-    <div>Characters: <span id="char-count">00</span></div>
-    <div>Words: <span id="word-count">00</span></div>
-    <div>Sentences: <span id="sentence-count">00</span></div>
-  </div>
+    <div style="margin-top: 12px">
+      <strong>Results (from page UI):</strong>
+      <div>Characters: <span id="char-count">00</span></div>
+      <div>Words: <span id="word-count">00</span></div>
+      <div>Sentences: <span id="sentence-count">00</span></div>
+    </div>
 
-  <script>
-    // Use the same IDs as the app so `script.js` binds to them.
-    const samples = {
-      dot: '.' ,
-      punct: '!!! *** --',
-      hello: 'Hello world.',
-      'hello-dot': 'Hello . world',
-      abbrev: 'U.S.A.',
-      nonlatin: 'Привет мир'
-    };
+    <script>
+      // Use the same IDs as the app so `script.js` binds to them.
+      const samples = {
+        dot: ".",
+        punct: "!!! *** --",
+        hello: "Hello world.",
+        "hello-dot": "Hello . world",
+        abbrev: "U.S.A.",
+        nonlatin: "Привет мир",
+      };
 
-    document.querySelectorAll('.tests button').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const key = btn.dataset.test;
-        const text = samples[key] || '';
-        const ta = document.getElementById('text-input');
-        ta.value = text;
-        // dispatch input event so the app updates
-        ta.dispatchEvent(new Event('input', { bubbles: true }));
+      document.querySelectorAll(".tests button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.test;
+          const text = samples[key] || "";
+          const ta = document.getElementById("text-input");
+          ta.value = text;
+          // dispatch input event so the app updates
+          ta.dispatchEvent(new Event("input", { bubbles: true }));
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

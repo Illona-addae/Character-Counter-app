@@ -2,6 +2,7 @@
 import {
   updateCharacterCount,
   updateWordCount,
+  countSentences,
 } from "./scripts/text-metrics.js";
 import updateLetterDensity from "./scripts/letter-density.js";
 
@@ -84,18 +85,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
   }
 
   function updateSentenceCount(text) {
-    const trimmed = text.trim();
-    if (trimmed === "") {
-      DOM.sentenceCount.textContent = "00";
-      return;
-    }
-    // Match sentence-ending punctuation sequences that are preceded by an
-    // alphanumeric character and followed by whitespace or end-of-string.
-    // This avoids counting standalone punctuation (like "." or "...") or
-    // punctuation inside abbreviations (e.g. "U.S.A.") as sentence boundaries.
-    const matches = trimmed.match(/[\p{L}\p{N}][.!?]+(?=\s|$)/gu);
-    const hasWordChar = /[\p{L}\p{N}]/u.test(trimmed);
-    const count = matches ? matches.length : hasWordChar ? 1 : 0;
+    const count = countSentences(text);
     DOM.sentenceCount.textContent = count.toString().padStart(2, "0");
   }
 
