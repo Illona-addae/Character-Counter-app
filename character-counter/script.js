@@ -43,6 +43,15 @@ import updateLetterDensity from "./scripts/letter-density.js";
   function init() {
     setupTheme();
     setupEventListeners();
+    // Initialize character limit UI state based on current checkbox/input
+    if (DOM.characterLimitCheckbox && DOM.characterLimitCheckbox.checked) {
+      limitEnabled = true;
+      if (DOM.characterLimitInput) {
+        DOM.characterLimitInput.classList.toggle("hidden", false);
+        parseAndApplyLimit(DOM.characterLimitInput.value);
+      }
+    }
+
     resetCounts();
   }
 
@@ -60,7 +69,10 @@ import updateLetterDensity from "./scripts/letter-density.js";
     DOM.textInput.addEventListener("input", updateAll);
     // Character limit controls
     if (DOM.characterLimitCheckbox) {
-      DOM.characterLimitCheckbox.addEventListener("change", onCharacterLimitToggle);
+      DOM.characterLimitCheckbox.addEventListener(
+        "change",
+        onCharacterLimitToggle
+      );
     }
     if (DOM.characterLimitInput) {
       DOM.characterLimitInput.addEventListener("input", onCharacterLimitChange);
@@ -82,6 +94,13 @@ import updateLetterDensity from "./scripts/letter-density.js";
     } else {
       // parse current value
       parseAndApplyLimit(DOM.characterLimitInput && DOM.characterLimitInput.value);
+      // focus and select the input so user can type immediately
+      try {
+        DOM.characterLimitInput.focus();
+        DOM.characterLimitInput.select();
+      } catch (err) {
+        /* ignore */
+      }
     }
   }
 
@@ -105,6 +124,12 @@ import updateLetterDensity from "./scripts/letter-density.js";
     const current = DOM.textInput.value || "";
     if (current.length > characterLimit) {
       DOM.textInput.value = current.slice(0, characterLimit);
+      // move caret to end so typing continues naturally
+      try {
+        DOM.textInput.setSelectionRange(characterLimit, characterLimit);
+      } catch (e) {
+        // ignore if not supported
+      }
     }
   }
 
