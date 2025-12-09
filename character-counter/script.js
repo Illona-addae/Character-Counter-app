@@ -1,3 +1,4 @@
+// Module Imports
 import {
   updateCharacterCount,
   updateWordCount,
@@ -9,6 +10,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
 
   const READING_SPEED = 200;
 
+  //   DOM Helper and DOM cache
   function getDocument(selectorName, type) {
     switch (type) {
       case "id":
@@ -22,6 +24,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
     }
   }
 
+  // DOM object
   const DOM = {
     themeBtn: getDocument("themeBtn", "id"),
     textInput: getDocument("text-input", "id"),
@@ -35,6 +38,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
     densityList: getDocument("density-list", "id"),
   };
 
+  // Initialization Flow
   function init() {
     setupTheme();
     setupEventListeners();
@@ -48,6 +52,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
     }
   }
 
+  //  Event Wiring
   function setupEventListeners() {
     window.addEventListener("DOMContentLoaded", resetCounts);
     DOM.themeBtn.addEventListener("click", toggleTheme);
@@ -79,12 +84,18 @@ import updateLetterDensity from "./scripts/letter-density.js";
   }
 
   function updateSentenceCount(text) {
-    if (text.trim() === "") {
+    const trimmed = text.trim();
+    if (trimmed === "") {
       DOM.sentenceCount.textContent = "00";
       return;
     }
-    const sentences = text.match(/[.!?]/g);
-    const count = sentences ? sentences.length : text.trim() ? 1 : 0;
+    // Match sentence-ending punctuation sequences that are preceded by an
+    // alphanumeric character and followed by whitespace or end-of-string.
+    // This avoids counting standalone punctuation (like "." or "...") or
+    // punctuation inside abbreviations (e.g. "U.S.A.") as sentence boundaries.
+    const matches = trimmed.match(/[\p{L}\p{N}][.!?]+(?=\s|$)/gu);
+    const hasWordChar = /[\p{L}\p{N}]/u.test(trimmed);
+    const count = matches ? matches.length : hasWordChar ? 1 : 0;
     DOM.sentenceCount.textContent = count.toString().padStart(2, "0");
   }
 

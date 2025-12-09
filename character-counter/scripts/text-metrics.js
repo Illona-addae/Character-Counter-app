@@ -16,6 +16,13 @@ export function updateWordCount(text, wordCountEl) {
     wordCountEl.textContent = "00";
     return;
   }
-  const words = trimmed.split(/\s+/);
+  // Split on whitespace, then filter out tokens that contain at least one
+  // alphanumeric character. This prevents counting standalone punctuation
+  // (e.g. ".", "--", "***") as words.
+  const tokens = trimmed.split(/\s+/);
+  // Use Unicode-aware letter/number detection so accented and non-Latin
+  // characters count as words. The 'u' flag enables Unicode property
+  // escapes and broader character support in modern browsers.
+  const words = tokens.filter((t) => /[\p{L}\p{N}]/u.test(t));
   wordCountEl.textContent = words.length.toString().padStart(2, "0");
 }
