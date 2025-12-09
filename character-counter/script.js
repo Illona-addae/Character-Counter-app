@@ -117,7 +117,9 @@ import updateLetterDensity from "./scripts/letter-density.js";
       characterLimit = null;
     } else {
       // parse current value
-      parseAndApplyLimit(DOM.characterLimitInput && DOM.characterLimitInput.value);
+      parseAndApplyLimit(
+        DOM.characterLimitInput && DOM.characterLimitInput.value
+      );
       // focus and select the input so user can type immediately
       try {
         DOM.characterLimitInput.focus();
