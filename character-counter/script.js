@@ -79,6 +79,33 @@ import updateLetterDensity from "./scripts/letter-density.js";
     }
   }
 
+  // Ensure the character limit input exists in the DOM. Some pages
+  // (or earlier edits) might not include it; create and insert it
+  // next to the checkbox so users always have the control.
+  function ensureCharacterLimitInput() {
+    if (DOM.characterLimitInput) return;
+    const checkbox = document.getElementById("set-character-lim");
+    if (!checkbox) return;
+    // find the parent .check-item to append the input into
+    const parent = checkbox.closest(".check-item") || checkbox.parentNode;
+    if (!parent) return;
+    const input = document.createElement("input");
+    input.type = "number";
+    input.id = "character-limit-input";
+    input.className = "limit-input hidden";
+    input.value = "300";
+    input.min = "1";
+    input.placeholder = "300";
+    input.title = "Character limit";
+    input.setAttribute("aria-label", "Character limit");
+    parent.appendChild(input);
+    // update DOM cache and wire events
+    DOM.characterLimitInput = document.getElementById("character-limit-input");
+    if (DOM.characterLimitInput) {
+      DOM.characterLimitInput.addEventListener("input", onCharacterLimitChange);
+    }
+  }
+
   // Character limit state
   let characterLimit = null; // integer or null
   let limitEnabled = false;
