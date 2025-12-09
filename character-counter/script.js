@@ -47,7 +47,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
     if (DOM.characterLimitCheckbox && DOM.characterLimitCheckbox.checked) {
       limitEnabled = true;
       if (DOM.characterLimitInput) {
-        DOM.characterLimitInput.classList.toggle("hidden", false);
+        DOM.characterLimitInput.disabled = false;
         parseAndApplyLimit(DOM.characterLimitInput.value);
       }
     }
@@ -112,9 +112,9 @@ import updateLetterDensity from "./scripts/letter-density.js";
 
   function onCharacterLimitToggle(e) {
     limitEnabled = !!e.target.checked;
-    // show or hide the number input
+    // enable or disable the number input
     if (DOM.characterLimitInput) {
-      DOM.characterLimitInput.classList.toggle("hidden", !limitEnabled);
+      DOM.characterLimitInput.disabled = !limitEnabled;
     }
     if (!limitEnabled) {
       characterLimit = null;
