@@ -1,4 +1,4 @@
-// Module Imports
+// Imports
 import {
   updateCharacterCount,
   updateWordCount,
@@ -6,12 +6,14 @@ import {
 } from "./scripts/text-metrics.js";
 import updateLetterDensity from "./scripts/letter-density.js";
 
+// App module (IIFE)
 (function () {
   "use strict";
 
+  // Reading speed (words per minute) used for reading time estimate
   const READING_SPEED = 200;
 
-  //   DOM Helper and DOM cache
+  // Simple DOM helper
   function getDocument(selectorName, type) {
     switch (type) {
       case "id":
@@ -25,7 +27,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
     }
   }
 
-  // DOM object
+  // DOM cache
   const DOM = {
     themeBtn: getDocument("themeBtn", "id"),
     textInput: getDocument("text-input", "id"),
@@ -38,31 +40,31 @@ import updateLetterDensity from "./scripts/letter-density.js";
     sentenceCount: getDocument("sentence-count", "id"),
     densityList: getDocument("density-list", "id"),
   };
-
-  // Initialization Flow
+  // Initialization
   function init() {
     setupTheme();
     setupEventListeners();
-    // Initialize character limit UI state based on current checkbox/input
+    // If the HTML had the checkbox pre-checked (e.g., from server-side),
+    // initialize the limit state so enforcement is consistent on load.
     if (DOM.characterLimitCheckbox && DOM.characterLimitCheckbox.checked) {
       limitEnabled = true;
       if (DOM.characterLimitInput) {
+        // ensure the input is editable and parse any prefilled value
         DOM.characterLimitInput.disabled = false;
         parseAndApplyLimit(DOM.characterLimitInput.value);
       }
     }
-
+    // Reset counters to defaults
     resetCounts();
   }
-
+  // Apply saved theme
   function setupTheme() {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       document.body.classList.add("dark-mode");
     }
   }
-
-  //  Event Wiring
+  // Wire event listeners
   function setupEventListeners() {
     window.addEventListener("DOMContentLoaded", resetCounts);
     DOM.themeBtn.addEventListener("click", toggleTheme);
@@ -78,10 +80,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
       DOM.characterLimitInput.addEventListener("input", onCharacterLimitChange);
     }
   }
-
-  // Ensure the character limit input exists in the DOM. Some pages
-  // (or earlier edits) might not include it; create and insert it
-  // next to the checkbox so users always have the control.
+  // Create the limit input if missing
   function ensureCharacterLimitInput() {
     if (DOM.characterLimitInput) return;
     const checkbox = document.getElementById("set-character-lim");
@@ -92,8 +91,10 @@ import updateLetterDensity from "./scripts/letter-density.js";
     const input = document.createElement("input");
     input.type = "number";
     input.id = "character-limit-input";
+    // start visually hidden when created; index.html will normally include
+    // a visible input, but this covers the missing-markup case.
     input.className = "limit-input hidden";
-    input.value = "300";
+    input.value = "300"; // default value; user should overwrite this
     input.min = "1";
     input.placeholder = "300";
     input.title = "Character limit";
@@ -105,27 +106,27 @@ import updateLetterDensity from "./scripts/letter-density.js";
       DOM.characterLimitInput.addEventListener("input", onCharacterLimitChange);
     }
   }
-
   // Character limit state
-  let characterLimit = null; // integer or null
+  let characterLimit = null;
   let limitEnabled = false;
 
+  // Checkbox handler: toggle enforcement and parse current input
   function onCharacterLimitToggle(e) {
     limitEnabled = !!e.target.checked;
     // we keep the input editable at all times; only enforcement is enabled/disabled
     if (!limitEnabled) {
+      // turning the checkbox off removes the active limit
       characterLimit = null;
     } else {
-      // parse current value
+      // parse current value and focus the control so the user can adjust it
       parseAndApplyLimit(
         DOM.characterLimitInput && DOM.characterLimitInput.value
       );
-      // focus and select the input so user can type immediately
       try {
         DOM.characterLimitInput.focus();
         DOM.characterLimitInput.select();
       } catch (err) {
-        /* ignore */
+        /* ignore: focus/select may fail in some contexts */
       }
     }
   }
@@ -133,7 +134,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
   function onCharacterLimitChange(e) {
     parseAndApplyLimit(e.target.value);
   }
-
+  // Parse and apply numeric limit
   function parseAndApplyLimit(val) {
     const n = Number(String(val).trim());
     if (Number.isInteger(n) && n > 0) {
@@ -145,6 +146,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
     }
   }
 
+  // Enforce the current character limit by truncating textarea value
   function enforceCharacterLimit() {
     if (!limitEnabled || !characterLimit || !DOM.textInput) return;
     const current = DOM.textInput.value || "";
@@ -159,12 +161,14 @@ import updateLetterDensity from "./scripts/letter-density.js";
     }
   }
 
+  // Toggle theme and persist
   function toggleTheme() {
     document.body.classList.toggle("dark-mode");
     const isDark = document.body.classList.contains("dark-mode");
     localStorage.setItem("theme", isDark ? "dark" : "light");
   }
 
+  // Reset counters and textarea
   function resetCounts() {
     DOM.textInput.value = "";
     DOM.characterCount.textContent = "00";
@@ -174,6 +178,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
     DOM.densityList.innerHTML = "";
   }
 
+  // Run all metric updates (called on input)
   function updateAll() {
     // Enforce limit (this may trim the textarea value)
     enforceCharacterLimit();
@@ -186,6 +191,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
     updateLetterDensity(text, DOM.densityList);
   }
 
+  // Update sentence counter
   function updateSentenceCount(text) {
     const count = countSentences(text);
     DOM.sentenceCount.textContent = count.toString().padStart(2, "0");
