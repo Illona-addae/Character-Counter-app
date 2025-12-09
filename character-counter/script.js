@@ -112,10 +112,7 @@ import updateLetterDensity from "./scripts/letter-density.js";
 
   function onCharacterLimitToggle(e) {
     limitEnabled = !!e.target.checked;
-    // enable or disable the number input
-    if (DOM.characterLimitInput) {
-      DOM.characterLimitInput.disabled = !limitEnabled;
-    }
+    // we keep the input editable at all times; only enforcement is enabled/disabled
     if (!limitEnabled) {
       characterLimit = null;
     } else {
