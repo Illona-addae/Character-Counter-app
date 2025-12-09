@@ -58,6 +58,54 @@ import updateLetterDensity from "./scripts/letter-density.js";
     window.addEventListener("DOMContentLoaded", resetCounts);
     DOM.themeBtn.addEventListener("click", toggleTheme);
     DOM.textInput.addEventListener("input", updateAll);
+    // Character limit controls
+    if (DOM.characterLimitCheckbox) {
+      DOM.characterLimitCheckbox.addEventListener("change", onCharacterLimitToggle);
+    }
+    if (DOM.characterLimitInput) {
+      DOM.characterLimitInput.addEventListener("input", onCharacterLimitChange);
+    }
+  }
+
+  // Character limit state
+  let characterLimit = null; // integer or null
+  let limitEnabled = false;
+
+  function onCharacterLimitToggle(e) {
+    limitEnabled = !!e.target.checked;
+    // show or hide the number input
+    if (DOM.characterLimitInput) {
+      DOM.characterLimitInput.classList.toggle("hidden", !limitEnabled);
+    }
+    if (!limitEnabled) {
+      characterLimit = null;
+    } else {
+      // parse current value
+      parseAndApplyLimit(DOM.characterLimitInput && DOM.characterLimitInput.value);
+    }
+  }
+
+  function onCharacterLimitChange(e) {
+    parseAndApplyLimit(e.target.value);
+  }
+
+  function parseAndApplyLimit(val) {
+    const n = Number(String(val).trim());
+    if (Number.isInteger(n) && n > 0) {
+      characterLimit = n;
+      // enforce immediately in case current text already exceeds the limit
+      enforceCharacterLimit();
+    } else {
+      characterLimit = null;
+    }
+  }
+
+  function enforceCharacterLimit() {
+    if (!limitEnabled || !characterLimit || !DOM.textInput) return;
+    const current = DOM.textInput.value || "";
+    if (current.length > characterLimit) {
+      DOM.textInput.value = current.slice(0, characterLimit);
+    }
   }
 
   function toggleTheme() {
@@ -76,6 +124,9 @@ import updateLetterDensity from "./scripts/letter-density.js";
   }
 
   function updateAll() {
+    // Enforce limit (this may trim the textarea value)
+    enforceCharacterLimit();
+
     const text = DOM.textInput.value;
     updateCharacterCount(text, DOM.excludeSpace, DOM.characterCount);
     updateWordCount(text, DOM.wordCount);
