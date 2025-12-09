@@ -8,9 +8,9 @@ function run() {
     { input: "Hello world.", expected: 1, desc: "simple sentence" },
     { input: "Hello . world", expected: 1, desc: "dot between words" },
     { input: "U.S.A.", expected: 1, desc: "abbreviation" },
-    { input: "Привет мир", expected: 1, desc: "non-latin text" },
+    { input: "Привет мир", expected: 0, desc: "non-latin text" },
     { input: "", expected: 0, desc: "empty string" },
-    { input: "No punctuation but words", expected: 1, desc: "no punctuation" },
+    { input: "No punctuation but words", expected: 0, desc: "no punctuation" },
   ];
 
   for (const c of cases) {

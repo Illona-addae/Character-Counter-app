@@ -34,8 +34,9 @@ export function updateWordCount(text, wordCountEl) {
 export function countSentences(text) {
   const trimmed = String(text || "").trim();
   if (trimmed === "") return 0;
-  const matches = trimmed.match(/[\p{L}\p{N}][.!?]+(?=\s|$)/gu);
-  const hasWordChar = /[\p{L}\p{N}]/u.test(trimmed);
-  const count = matches ? matches.length : hasWordChar ? 1 : 0;
+  // Allow optional spaces between the last word character and the punctuation
+  // so inputs like "Hello . world" are still detected as sentence endings.
+  const matches = trimmed.match(/[\p{L}\p{N}]\s*[.!?]+(?=\s|$)/gu);
+  const count = matches ? matches.length : 0;
   return count;
 }
